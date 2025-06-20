@@ -67,7 +67,6 @@ void loop() {
   for (int i = 0; i < 4; i++) {
     if (digitalRead(fotoPins[i]) == LOW) {
       ocupadosAct++;
-      //Serial.print(ocupadosAct);
     }
   }
 
@@ -91,6 +90,7 @@ void loop() {
     lcd.setCursor(0, 1);
     lcd.print("Disponibles: ");
     lcd.print(4 - cuenta);
+    Serial.println("Ocupados: " + String(cuenta) + ", Libres: " + String(4 - cuenta));
   }
 
 int lectura1 = digitalRead(sensorIR1);
