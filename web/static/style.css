@@ -1,111 +1,113 @@
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #eef2ff;
-    margin: 0;
-    padding: 20px;
-  }
-  
-  .panel {
-    max-width: 800px;
-    margin: auto;
-  }
-  
-  .encabezado {
-    background-color: #fff;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 4px 2px 8px gray;   
-  }
-  
-  .estado-parqueo, .vista-parqueo, .emergencia {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    box-shadow: 4px 4px 8px gray;   
-  
-  }
-  
-  .estado-boxes {
-    display: flex;
-    gap: 20px;
-    margin-top: 10px;
-  }
-  
-  .estado-boxes > div {
-    flex: 1;
-    padding: 15px;
-    border-radius: 10px;
-    color: #000;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .libres {
-    background-color: #d1f3da;
-  }
-  
-  .ocupados {
-    background-color: #f3bbbb;
-  }
-  
-  .vista-parqueo .parqueo-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-top: 10px;
-  }
-  
-  .espacio {
-    padding: 15px;
-    border: 2px solid #5f5a5a;
-    border-radius: 8px;
-    text-align: center;
-  }
-  
-  .libre {
-    background-color: #d1f3da;
-  }
-  
-  .ocupado {
-    background-color: #f3bbbb;
-  }
-  
-  .garitas {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-  }
-  
-  .garita {
-    background-color: #d1f3da;
-    padding: 15px;
-    border-radius: 10px;
-    flex: 1;
-    margin: 0 5px;
-    text-align: center;
-  }
-  
-  .emergencia {
-    text-align: center;
-    background-color: #e6b5b5;
-  }
-  
-  .panico {
-    
-    color: darkgray;
-    border :2px solid gray;
-    padding: 15px 30px;
-    font-weight: bold;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin: 10px 0;
-  }
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #eef2ff;
+  margin: 0;
+  padding: 20px;
+}
+
+.panel {
+  max-width: 800px;
+  margin: auto;
+}
+
+.encabezado {
+  background-color: #fff;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 4px 2px 8px gray;   
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.estado-parqueo, .vista-parqueo, .emergencia {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 4px 4px 8px gray;   
+}
+
+.estado-boxes {
+  display: flex;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.estado-boxes > div {
+  flex: 1;
+  padding: 15px;
+  border-radius: 10px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.libres {
+  background-color: #d1f3da;
+}
+
+.ocupados {
+  background-color: #f3bbbb;
+}
+
+.vista-parqueo .parqueo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.espacio {
+  padding: 15px;
+  border: 2px solid #5f5a5a;
+  border-radius: 8px;
+  text-align: center;
+  font-size: 2em;
+  color: white;
+}
+
+.espacio.libre {
+  background-color: #28a745; /* verde */
+}
+
+.espacio.ocupado {
+  background-color: #dc3545; /* rojo */
+}
+
+.espacio.desconocido {
+  background-color: #6c757d; /* gris */
+}
+
+.garitas {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.garita {
+  background-color: #d1f3da;
+  padding: 15px;
+  border-radius: 10px;
+  flex: 1;
+  margin: 0 5px;
+  text-align: center;
+}
+
+.emergencia {
+  text-align: center;
+  background-color: #e6b5b5;
+}
+
+.panico {
+  color: darkgray;
+  border: 2px solid gray;
+  padding: 15px 30px;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px 0;
+}
   
