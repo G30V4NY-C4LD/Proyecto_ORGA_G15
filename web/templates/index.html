@@ -44,43 +44,51 @@
 
     <section class="emergencia">
       <h3><i class="fas fa-exclamation-triangle"></i> Control de Emergencia</h3>
-      <input type="text" class="panico">
+      <input type="text" class="panico" placeholder="Codigo">
       <p>Ingresa el Codigo para Apagar el modo de Emergencia</p>
     </section>
   </div>
   
   <!--Script para actualizar los datos de los parqueos-->
-  <script>
-    function actualizarDatos() {
-      fetch('/estado_espacios')
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('libres').innerText = data.libres;
-          document.getElementById('ocupados').innerText = data.ocupados;
+<script>
+  function actualizarDatos() {
+    fetch('/estado_espacios')
+      .then(response => response.json())
+      .then(data => {
+        // Actualizar contadores
+        document.getElementById('libres').innerText = data.libres;
+        document.getElementById('ocupados').innerText = data.ocupados;
 
-          const grid = document.getElementById('parqueoGrid');
-          grid.innerHTML = '';
-          data.espacios.forEach(estado => {
-            const div = document.createElement('div');
-            div.className = 'espacio ' + estado;
-            const icon = document.createElement('i');
+        // Actualizar grilla
+        const grid = document.getElementById('parqueoGrid');
+        grid.innerHTML = '';  // Limpiar grilla actual
 
-            if (estado === 'libre') {
-              icon.className = 'fas fa-square-parking';
-            } else if (estado === 'ocupado') {
-              icon.className = 'fas fa-car-side';
-            } else {
-              icon.className = 'fas fa-question';
-            }
+        data.espacios.forEach(estado => {
+          const div = document.createElement('div');
+          div.className = 'espacio ' + estado;
 
-            div.appendChild(icon);
-            grid.appendChild(div);
-          });
+          const icon = document.createElement('i');
+          if (estado === 'libre') {
+            icon.className = 'fas fa-square-parking';
+          } else if (estado === 'ocupado') {
+            icon.className = 'fas fa-car-side';
+          } else {
+            icon.className = 'fas fa-question';
+          }
+
+          div.appendChild(icon);
+          grid.appendChild(div);
         });
-    }
+      })
+      .catch(error => {
+        console.error("Error en fetch:", error);
+      });
+  }
 
-    setInterval(actualizarDatos, 2000);
-    actualizarDatos();
-  </script>
+  // Ejecutar al cargar y luego cada 2 segundos
+  setInterval(actualizarDatos, 2000);
+  actualizarDatos();
+</script>
+
 </body>
 </html>
