@@ -3,26 +3,36 @@
 <head>
   <meta charset="UTF-8">
   <title>Sistema de Parqueo T3</title>
+  <!--link enlaza recursos externos, en este caso una hoja de estilos. -->
+  <!-- href contiene {{}}, todo lo que esta dentro de estas es sintaxis Jinja2.-->
+  <!-- url_for genera una html correcta, static es el nombre del endpoint, filename indica el archivo. -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
 </head>
 <body>
+  <!-- Agrupa los elementos del panel por medio del div.-->
   <div class="panel">
     <header class="encabezado">
       <div>
+        <!-- i es un contenedor para iconos de font awesome. se agrego un icono solido(fas), y es un escudo.-->
         <h2><i class="fas fa-shield-alt"></i> Sistema de Parqueo T3</h2>
         <p>Panel de Control de Seguridad</p>
       </div>
     </header>
 
+    <!-- crea una seccion especifica para el parkeo.-->
     <section class="estado-parqueo">
+      <!-- se agrego un icono de parking de font awesome solid(fas).-->
       <h3><i class="fas fa-parking"></i> Estado del Parqueo</h3>
+      <!-- contenedor para organizar los espacios libres y ocupados del parkeo-->
       <div class="estado-boxes">
+        <!-- contendor para los espacios libres. -->
         <div class="libres">
           <p>Espacios Libres</p>
           <h2 id="libres">0</h2>
           <i class="fas fa-check-circle"></i>
         </div>
+        <!-- contendor para los espacios ocupados. -->
         <div class="ocupados">
           <p>Espacios Ocupados</p>
           <h2 id="ocupados">0</h2>
@@ -31,19 +41,23 @@
       </div>
     </section>
 
+    <!-- crea una seccion para ver el parkeo. -->
     <section class="vista-parqueo">
       <h3>Vista del Parqueo</h3>
       <div class="parqueo-grid" id="parqueoGrid">
         <!-- Se llenará por JavaScript la grilla de espacios -->
       </div>
+      <!-- agrupa la informacion de las garitas, de entrada y salida. -->
       <div class="garitas">
         <div class="garita"><i class="fas fa-check-circle"></i> Garita de Entrada<br><span>Operativa</span></div>
         <div class="garita"><i class="fas fa-check-circle"></i> Garita de Salida<br><span>Operativa</span></div>
       </div>
     </section>
 
+    <!-- seccion para el estado de emergencia. -->
     <section class="emergencia">
       <h3><i class="fas fa-exclamation-triangle"></i> Control de Emergencia</h3>
+      <!-- campo donde el usuario puede ingresar datos, texto plano, y muestra un texto de ejemplo. -->
       <input type="text" class="panico" placeholder="Codigo">
       <p>Ingresa el Codigo para Apagar el modo de Emergencia</p>
     </section>
