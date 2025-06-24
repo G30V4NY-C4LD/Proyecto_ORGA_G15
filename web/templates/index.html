@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>Sistema de Parqueo T3</title>
   <!--link enlaza recursos externos, en este caso una hoja de estilos. -->
-  <!-- href contiene {{}}, todo lo que esta dentro de estas es sintaxis Jinja2.-->
+  <!-- href contiene, todo lo que esta dentro de estas es sintaxis Jinja2.-->
   <!-- url_for genera una html correcta, static es el nombre del endpoint, filename indica el archivo. -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
@@ -19,7 +19,18 @@
         <p>Panel de Control de Seguridad</p>
       </div>
     </header>
-
+    <!--crea seccion para manejo de estados del parqueo-->
+    <section class="botones-estado">
+        <div>
+          <p>Nota: Para cambiar de estado, ingrese el codigo en el panel de emergencia</p>
+        </div>
+        <div>
+        <button class="boton" id="Mantenimiento"  onclick="enviarBoton('Mantenimiento')">Mantenimiento</button>
+        <button class="boton" id="Nocturno"  onclick="enviarBoton('Nocturno')">Nocturno</button>
+        <button class="boton" id="Evacuacion"  onclick="enviarBoton('Evacuacion')">Evacuacion</button>
+        </div>
+        
+    </section>
     <!-- crea una seccion especifica para el parkeo.-->
     <section class="estado-parqueo">
       <!-- se agrego un icono de parking de font awesome solid(fas).-->
@@ -99,8 +110,20 @@
       });
   }
 
-  // Ejecutar al cargar y luego cada 2 segundos
-  setInterval(actualizarDatos, 2000);
+  //funcion para reconocer los botones
+     function enviarBoton(botonId) {
+      fetch('/boton-presionado', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ boton: botonId })
+      })
+      .then(response => response.text())
+      .then(data => console.log("Respuesta del servidor:", data))
+      .catch(error => console.error("Error:", error));
+    }
+
+  // Ejecutar al cargar y luego cada 4 segundos
+  setInterval(actualizarDatos, 4000);
   actualizarDatos();
 </script>
 

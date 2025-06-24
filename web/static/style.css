@@ -110,4 +110,34 @@ body {
   cursor: pointer;
   margin: 10px 0;
 }
+
+.botones-estado {
+  display: grid;
+  justify-content: space-around; /* distribuye los botones horizontalmente */
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 4px 4px 8px gray; 
+}
   
+.boton {
+  padding: 20px 20px;
+  margin: 15px;
+  font-size: 16px;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#Mantenimiento { background-color: #0056b3;}
+#Nocturno { background-color: #5f5a5a;}
+#Evacuacion { background-color: #ad24b9;}
+
+#Mantenimiento:hover { background-color: #3183db;}
+#Nocturno:hover { background-color: #807a7a;}
+#Evacuacion:hover { background-color: #e286e6;}
+

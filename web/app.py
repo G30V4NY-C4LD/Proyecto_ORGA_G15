@@ -1,5 +1,5 @@
 # import de las librerias a usar
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import serial
 import threading
 import time
@@ -57,6 +57,14 @@ def estado_espacios():  # los datos del formato json para mostrar el estado de l
         "libres": libres,
         "espacios": espacios
     })
+
+@app.route('/boton-presionado', methods=['POST'])
+def boton_presionado():
+    data = request.get_json()
+    boton = data.get('boton')
+    print(f"Se presionó el botón: {boton}")  # Esto se muestra en la consola de Python
+    return f"Botón recibido: {boton}", 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)
