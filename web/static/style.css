@@ -133,11 +133,25 @@ body {
   transition: background-color 0.3s ease;
 }
 
+#Normal { background-color: #048a21;}
+#Panico { background-color: #8a1101;}
 #Mantenimiento { background-color: #0056b3;}
 #Nocturno { background-color: #5f5a5a;}
 #Evacuacion { background-color: #ad24b9;}
 
+#Normal:hover { background-color: #65eb82;}
+#Panico:hover { background-color: #f08375;}
 #Mantenimiento:hover { background-color: #3183db;}
 #Nocturno:hover { background-color: #807a7a;}
 #Evacuacion:hover { background-color: #e286e6;}
 
+#inputCodigo{
+  color: darkgray;
+  border: 2px solid gray;
+  padding: 15px 30px;
+  font-weight: bold;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin: 10px 0;
+}

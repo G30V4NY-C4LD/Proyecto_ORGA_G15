@@ -15,7 +15,7 @@ ultimo_mensaje = "" # aguarda el ultimo mensaje para ver si hay cambio despues
 
 # Intento de conexión al Arduino
 try:
-    arduino = serial.Serial('COM5', 9600, timeout=1)
+    arduino = serial.Serial('COM4', 9600, timeout=1)
     time.sleep(2)
     arduino_disponible = True
 except:
@@ -58,12 +58,52 @@ def estado_espacios():  # los datos del formato json para mostrar el estado de l
         "espacios": espacios
     })
 
-@app.route('/boton-presionado', methods=['POST'])
-def boton_presionado():
+
+@app.route("/modo_con_contrasena", methods=["POST"])
+def modo_con_contrasena():
     data = request.get_json()
-    boton = data.get('boton')
-    print(f"Se presionó el botón: {boton}")  # Esto se muestra en la consola de Python
-    return f"Botón recibido: {boton}", 200
+    modo = data.get("modo", "").lower()
+    codigo = data.get("codigo", "")
+
+    if not arduino_disponible:
+        return jsonify({"respuesta": "Arduino no disponible"}), 503
+
+    if codigo != "GHJL":
+        comando = "AccesoDenegado\n"
+        arduino.write(comando.encode())
+        return jsonify({"respuesta": "Código incorrecto"})
+
+    # Diccionario para mapear modo → texto a enviar
+    modos = {
+        "normal": "ModoNormalActivado",
+        "panico": "ModoPanicoActivado",
+        "mantenimiento": "ModoMantenimientoActivado",
+        "nocturno": "ModoNocturnoActivado",
+        "evacuacion": "ModoEvacuacionActivado"
+    }
+
+    # Si no está en los modos válidos
+    if modo not in modos:
+        return jsonify({"respuesta": "Modo inválido"}), 400
+
+    mensaje = modos[modo] + "\n"
+    arduino.write(mensaje.encode())
+
+    # Leer respuesta del Arduino si hay
+    time.sleep(1)
+    if arduino.in_waiting:
+        respuesta = arduino.readline().decode().strip()
+        print("Respuesta del Arduino:", respuesta)
+
+        # Si no es modo normal, regresamos luego a normal
+        if modo != "normal":
+            time.sleep(10)  # Espera para simular que terminó el modo
+            arduino.write("ModoNormalActivado\n".encode())
+            print("Modo restaurado a Normal")
+
+        return jsonify({"respuesta": respuesta})
+
+    return jsonify({"respuesta": "Sin respuesta del Arduino"}), 504
 
 
 if __name__ == "__main__":
