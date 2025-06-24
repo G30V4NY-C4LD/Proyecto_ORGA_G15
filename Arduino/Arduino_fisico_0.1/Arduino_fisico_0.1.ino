@@ -110,6 +110,7 @@ void loop() {
     if (comando == "ModoNormalActivado") {
       modoActual = NORMAL;
       modoYaSeleccionado = true;
+      cuenta = -1;
 
 //PANICO
     } else if (comando == "ModoPanicoActivado" && modoActual == NORMAL) {
