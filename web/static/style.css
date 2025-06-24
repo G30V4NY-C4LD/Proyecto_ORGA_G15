@@ -80,37 +80,6 @@ body {
   background-color: #6c757d; /* gris */
 }
 
-.garitas {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-.garita {
-  background-color: #d1f3da;
-  padding: 15px;
-  border-radius: 10px;
-  flex: 1;
-  margin: 0 5px;
-  text-align: center;
-}
-
-.emergencia {
-  text-align: center;
-  background-color: #e6b5b5;
-}
-
-.panico {
-  color: darkgray;
-  border: 2px solid gray;
-  padding: 15px 30px;
-  font-weight: bold;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
-  margin: 10px 0;
-}
-
 .botones-estado {
   display: grid;
   justify-content: space-around; /* distribuye los botones horizontalmente */
@@ -146,6 +115,7 @@ body {
 #Evacuacion:hover { background-color: #e286e6;}
 
 #inputCodigo{
+  width: 90%;
   color: darkgray;
   border: 2px solid gray;
   padding: 15px 30px;

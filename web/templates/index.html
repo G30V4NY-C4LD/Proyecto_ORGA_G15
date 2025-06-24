@@ -22,10 +22,11 @@
     <!--crea seccion para manejo de estados del parqueo-->
     <section class="botones-estado">
         <div>
-          <p>Nota: Para cambiar de estado, ingrese el codigo </p>
+          <h2>Panel de Control</h2>
+         
         </div>
         <div class="cambio-modo">
-          <input type="text" id="inputCodigo" placeholder="Codigo">
+          <input type="text" id="inputCodigo" placeholder="Ingrese el Codigo de Seguridad">
         </div>
         <div>
         <button class="boton" id="Normal"  onclick="enviarModo('normal')">Normal</button>
@@ -63,20 +64,9 @@
       <div class="parqueo-grid" id="parqueoGrid">
         <!-- Se llenará por JavaScript la grilla de espacios -->
       </div>
-      <!-- agrupa la informacion de las garitas, de entrada y salida. -->
-      <div class="garitas">
-        <div class="garita"><i class="fas fa-check-circle"></i> Garita de Entrada<br><span>Operativa</span></div>
-        <div class="garita"><i class="fas fa-check-circle"></i> Garita de Salida<br><span>Operativa</span></div>
-      </div>
+      
     </section>
 
-    <!-- seccion para el estado de emergencia. -->
-    <section class="emergencia">
-      <h3><i class="fas fa-exclamation-triangle"></i> Control de Emergencia</h3>
-      <!-- campo donde el usuario puede ingresar datos, texto plano, y muestra un texto de ejemplo. -->
-      <input type="text" class="panico" placeholder="Codigo">
-      <p>Ingresa el Codigo para Apagar el modo de Emergencia</p>
-    </section>
   </div>
   
   <!--Script para actualizar los datos de los parqueos-->

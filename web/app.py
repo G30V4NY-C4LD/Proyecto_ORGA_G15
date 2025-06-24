@@ -91,19 +91,6 @@ def modo_con_contrasena():
 
     # Leer respuesta del Arduino si hay
     time.sleep(1)
-    if arduino.in_waiting:
-        respuesta = arduino.readline().decode().strip()
-        print("Respuesta del Arduino:", respuesta)
-
-        # Si no es modo normal, regresamos luego a normal
-        if modo != "normal":
-            time.sleep(10)  # Espera para simular que terminó el modo
-            arduino.write("ModoNormalActivado\n".encode())
-            print("Modo restaurado a Normal")
-
-        return jsonify({"respuesta": respuesta})
-
-    return jsonify({"respuesta": "Sin respuesta del Arduino"}), 504
 
 
 if __name__ == "__main__":
