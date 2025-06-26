@@ -3,8 +3,10 @@
 
 LiquidCrystal_I2C lcd(0x27, 20, 4); // 0x27 físico, 0x20 simulador
 
-// Pines
-int fotoPins[4] = {14, 15, 16, 17};
+// Pines analógicos para las fotoresistencias
+int fotoPins[4] = {A0, A1, A2, A3};
+const int umbralLuz = 300; // Ajustable según la luz ambiente
+
 int pinPulso = 13;
 int pinReset = 12;
 int pinCuatro = 11;
@@ -23,18 +25,15 @@ Servo servo1, servo2;
 
 int cuenta = -1;
 
-// Tiempo para sirena
 unsigned long lastToneTime = 0;
 bool tonoAlto = false;
 
-// Control no bloqueante servos
 unsigned long tiempoServo1 = 0;
 bool activo1 = false;
 
 unsigned long tiempoServo2 = 0;
 bool activo2 = false;
 
-// MODOS DEL SISTEMA
 enum ModoParqueo {
   NORMAL,
   PANICO,
@@ -54,7 +53,6 @@ void setup() {
   lcd.setCursor(0, 1);
   lcd.print("Orga");
 
-  for (int i = 0; i < 4; i++) pinMode(fotoPins[i], INPUT);
   for (int i = 0; i < 3; i++) {
     pinMode(ascPins[i], INPUT);
     pinMode(descPins[i], INPUT);
@@ -75,21 +73,23 @@ void setup() {
 
   servo1.attach(servoPin1, 500, 2500);
   servo2.attach(servoPin2, 500, 2500);
-  servo1.write(0);
-  servo2.write(0);
+  servo1.write(180);
+  servo2.write(180);
 
   Serial.begin(9600);
 }
 
 void loop() {
-  // Establecer modo normal por defecto si aún no se ha seleccionado otro
+
+  
+
+
+
   if (!modoYaSeleccionado) {
     modoActual = NORMAL;
   }
 
   if (digitalRead(panicPin) == HIGH && modoActual == NORMAL) {
-    Serial.println("ModoPanicoActivado");
-    //solo para el simulador
     modoActual = PANICO;
     modoYaSeleccionado = true;
     lcd.clear();
@@ -99,20 +99,15 @@ void loop() {
     lcd.print("Ambas cerradas");
   }
 
-  // Leer comandos Serial
   if (Serial.available()) {
     String comando = Serial.readStringUntil('\n');
     comando.trim();
-    
-//Activar modos a traves de el serial
 
-//NORMAL
     if (comando == "ModoNormalActivado") {
       modoActual = NORMAL;
       modoYaSeleccionado = true;
       cuenta = -1;
 
-//PANICO
     } else if (comando == "ModoPanicoActivado" && modoActual == NORMAL) {
       modoActual = PANICO;
       modoYaSeleccionado = true;
@@ -121,8 +116,7 @@ void loop() {
       lcd.print("  MODO PANICO ");
       lcd.setCursor(0, 1);
       lcd.print("Ambas cerradas");
-    
-//MANTENIMIENTO
+
     } else if (comando == "ModoMantenimientoActivado" && modoActual == NORMAL) {
       modoActual = MANTENIMIENTO;
       modoYaSeleccionado = true;
@@ -132,7 +126,6 @@ void loop() {
       lcd.setCursor(0, 1);
       lcd.print("Solo salida ON ");
 
-//NOCTURNO
     } else if (comando == "ModoNocturnoActivado" && modoActual == NORMAL) {
       modoActual = NOCTURNO;
       modoYaSeleccionado = true;
@@ -142,7 +135,6 @@ void loop() {
       lcd.setCursor(0, 1);
       lcd.print("Ambas cerradas");
 
-//EVACUACION
     } else if (comando == "ModoEvacuacionActivado" && modoActual == NORMAL) {
       modoActual = EVACUACION;
       modoYaSeleccionado = true;
@@ -151,75 +143,75 @@ void loop() {
       lcd.print(" EVACUACION!! ");
       lcd.setCursor(0, 1);
       lcd.print("Ambas abiertas");
+
     } else {
       Serial.println("ERROR MODO =C");
     }
   }
 
-  // --- COMPORTAMIENTO POR MODO ---
   if (modoActual == PANICO) {
-    servo1.write(0);
-    servo2.write(0);
-
+    servo1.write(180);
+    servo2.write(180);
     unsigned long tiempoActual = millis();
     if (tiempoActual - lastToneTime >= 300) {
       lastToneTime = tiempoActual;
       tone(buzzPin, tonoAlto ? 1000 : 1500);
       tonoAlto = !tonoAlto;
     }
-
     return;
   }
 
   if (modoActual == MANTENIMIENTO) {
-    servo1.write(0); // entrada cerrada
+    servo1.write(180);
     noTone(buzzPin);
-
-    // salida funcional
-    bool lectura2 = digitalRead(sensorIR2);
-    if (lectura2 == LOW) {
+    if (digitalRead(sensorIR2) == LOW) {
       servo2.write(90);
       activo2 = true;
       tiempoServo2 = millis();
     } else if (activo2 && millis() - tiempoServo2 >= 3000) {
-      servo2.write(0);
+      servo2.write(180);
       activo2 = false;
     }
-
     return;
   }
 
   if (modoActual == NOCTURNO) {
-    servo1.write(0);
-    servo2.write(0);
+    servo1.write(180);
+    servo2.write(180);
     noTone(buzzPin);
-
     return;
   }
 
   if (modoActual == EVACUACION) {
     servo1.write(90);
     servo2.write(90);
-
     unsigned long tiempoActual = millis();
     if (tiempoActual - lastToneTime >= 300) {
       lastToneTime = tiempoActual;
       tone(buzzPin, tonoAlto ? 1200 : 800);
       tonoAlto = !tonoAlto;
     }
-
     return;
   }
 
   // MODO NORMAL
   noTone(buzzPin);
 
-  // Contador de ocupados
+  // --- Lectura analógica de fotoresistencias ---
   int ocupadosAct = 0;
   for (int i = 0; i < 4; i++) {
-    if (digitalRead(fotoPins[i]) == LOW) {
+    int valorLuz = analogRead(fotoPins[i]);
+    Serial.print("Foto "); Serial.print(i); Serial.print(": ");
+    Serial.println(valorLuz);
+
+    if (valorLuz < umbralLuz) {
       ocupadosAct++;
     }
+    /*Serial.print("A0: "); Serial.println(analogRead(A0));
+    Serial.print("A1: "); Serial.println(analogRead(A1));
+    Serial.print("A2: "); Serial.println(analogRead(A2));
+    Serial.print("A3: "); Serial.println(analogRead(A3));
+    delay(2000);*/
   }
 
   if (ocupadosAct != cuenta) {
@@ -252,25 +244,21 @@ void loop() {
     Serial.println("Ocupados: " + String(valorAsc) + ", Libres: " + String(valorDesc));
   }
 
-  // --- Servo 1 (entrada) ---
-  bool lectura1 = digitalRead(sensorIR1);
-  if (lectura1 == LOW) {
+  if (digitalRead(sensorIR1) == LOW) {
     servo1.write(90);
     activo1 = true;
     tiempoServo1 = millis();
-  } else if (activo1 && (millis() - tiempoServo1 >= 3000)) {
-    servo1.write(0);
+  } else if (activo1 && millis() - tiempoServo1 >= 3000) {
+    servo1.write(180);
     activo1 = false;
   }
 
-  // --- Servo 2 (salida) ---
-  bool lectura2 = digitalRead(sensorIR2);
-  if (lectura2 == LOW) {
+  if (digitalRead(sensorIR2) == LOW) {
     servo2.write(90);
     activo2 = true;
     tiempoServo2 = millis();
-  } else if (activo2 && (millis() - tiempoServo2 >= 3000)) {
-    servo2.write(0);
+  } else if (activo2 && millis() - tiempoServo2 >= 3000) {
+    servo2.write(180);
     activo2 = false;
   }
 
