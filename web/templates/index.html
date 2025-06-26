@@ -8,6 +8,8 @@
   <!-- url_for genera una html correcta, static es el nombre del endpoint, filename indica el archivo. -->
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
+  <!-- carga la libreria para crear graficas desde in content delivery network.-->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <!-- Agrupa los elementos del panel por medio del div.-->
@@ -65,6 +67,26 @@
         <!-- Se llenará por JavaScript la grilla de espacios -->
       </div>
       
+    </section>
+
+    <!-- Seccion de estadistica-->
+    <section class = "estadisticas">
+      <h3><i class="fas fa-chart-line"></i> Estadísticas del parqueo</h3>
+      <!-- contiene los dos elementos visuales, el promedio de carros y la grafica.-->
+      <div class="estadisticas-boxes">
+        <!-- contenedor para el promedio de carros. -->
+        <div class="promedio">
+          <p>Promedio de carros por hora</p>
+          <!-- promedio es usado por js para modoficar el promedio.-->
+          <h2 id="promedio">0</h2>
+        </div>
+        <!-- Contendor para la grafica.-->
+        <div>
+          <!-- canvas es el lienzo donde Chart.js dibujara la graifca en tiempo real. 
+           El id lo usa js para iniciar la grafica. -->
+          <canvas id="graficaOcupados" width="400" height="200"></canvas>
+        </div>
+      </div>
     </section>
 
   </div>
