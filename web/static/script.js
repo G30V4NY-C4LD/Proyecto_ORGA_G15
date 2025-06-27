@@ -77,14 +77,11 @@ function actualizarDatos() {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ modo: modo, codigo: codigo })
   })
-  .then(res => res.json())
-  .then(data => {
-    //alert("Arduino responde: " + data.respuesta);
-    document.getElementById("inputCodigo").value = ""; // Limpia el campo
-  })
+  .then(res => res.json(),
+    document.getElementById("inputCodigo").value = "" // Limpia el campo
+)
   .catch(error => {
-    console.error("Error:", error);
-    alert("Error al comunicarse con el servidor.");
+    console.error("Error:", error)
   });
 }
 
