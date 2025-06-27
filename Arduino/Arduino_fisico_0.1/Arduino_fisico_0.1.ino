@@ -201,8 +201,6 @@ void loop() {
   int ocupadosAct = 0;
   for (int i = 0; i < 4; i++) {
     int valorLuz = analogRead(fotoPins[i]);
-    Serial.print("Foto "); Serial.print(i); Serial.print(": ");
-    Serial.println(valorLuz);
 
     if (valorLuz < umbralLuz) {
       ocupadosAct++;
