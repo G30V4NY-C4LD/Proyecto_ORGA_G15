@@ -55,11 +55,13 @@ function actualizarDatos() {
       document.getElementById('promedio').innerText = promedio.toFixed(2);
 
       //Actualizar gráfica
-      if (miGrafica) {
+      requestAnimationFrame(() => {
+     if (miGrafica) {
         miGrafica.data.labels = labelsHoras;  //Actualiza las etiquetas del eje x(horas).
         miGrafica.data.datasets[0].data = datosOcupados;  //Actualiza los valores de datosOcupados.
         miGrafica.update(); 
       }
+    });
 
 
       })
@@ -114,4 +116,5 @@ miGrafica = new Chart(ctx, {
 
   // Ejecutar al cargar y luego cada 2 segundos
   setInterval(actualizarDatos, 500);
+  
   actualizarDatos();
