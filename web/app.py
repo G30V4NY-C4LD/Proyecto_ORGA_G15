@@ -23,25 +23,40 @@ except:
 
 # Función que lee el puerto serial 
 def leer_serial():
-    global ocupados, libres, espacios, arduino_disponible, ultimo_mensaje
+    global arduino, arduino_disponible, ocupados, libres, espacios, ultimo_mensaje
 
     while True:
-        if arduino_disponible and arduino.in_waiting:
+        if arduino_disponible:
             try:
-                linea = arduino.readline().decode().strip().lower()
-                if linea and linea != ultimo_mensaje and "ocupados" in linea and "libres" in linea: # que hay cambio en con respecto al ultimo estado, y que resibe en formato 'ocupado:#, libre:#'
-                    print("Recibido del serial:", linea) # en terminal el contenido del serial
-                    ultimo_mensaje = linea
+                if arduino.in_waiting:
+                    linea = arduino.readline().decode().strip().lower()
+                    if linea and linea != ultimo_mensaje and "ocupados" in linea and "libres" in linea:
+                        print("Recibido del serial:", linea)
+                        ultimo_mensaje = linea
 
-                    partes = linea.replace(" ", "").split(",") # separa en partes lo de ocupado y libres para tomar los numeros y mandarlos al frontend
-                    ocupados = int(partes[0].split(":")[1])
-                    libres = int(partes[1].split(":")[1])
-                    espacios = ["ocupado"] * ocupados + ["libre"] * libres #llena los espacios con ocupado o libre
-                    while len(espacios) < 4:
-                        espacios.append("desconocido") # si no sabe si esta libre u ocupado, ya sea porque el serial no se esta lleyendo bien
+                        partes = linea.replace(" ", "").split(",")
+                        ocupados = int(partes[0].split(":")[1])
+                        libres = int(partes[1].split(":")[1])
+                        espacios = ["ocupado"] * ocupados + ["libre"] * libres
+                        while len(espacios) < 4:
+                            espacios.append("desconocido")
             except Exception as e:
-                print("Error al procesar:", e)
+                print("Error al procesar serial:", e)
+                arduino_disponible = False
+                arduino.close()
+        else:
+            # Intentar reconexión si no está disponible
+            try:
+                print("Intentando reconectar con Arduino...")
+                arduino = serial.Serial('COM9', 9600, timeout=1)
+                time.sleep(2)
+                arduino_disponible = True
+                print("Reconexión exitosa.")
+            except Exception as e:
+                print("Fallo la reconexión:", e)
+
         time.sleep(1)
+
 
 # Hilo para lectura serial
 threading.Thread(target=leer_serial, daemon=True).start()
@@ -92,6 +107,7 @@ def modo_con_contrasena():
     # Leer respuesta del Arduino si hay
     time.sleep(0.5)
 
+    return jsonify({"respuesta": f"Modo {modo} enviado correctamente"})
 
 if __name__ == "__main__":
     app.run(debug=False)
