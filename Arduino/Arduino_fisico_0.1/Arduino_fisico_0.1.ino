@@ -14,7 +14,7 @@ int ascPins[3] = {7, 6, 5};
 int descPins[3] = {4, 3, 2};
 
 int pinNocturno1 = 52;
-int pinNocturno1 = 53;
+int pinNocturno2 = 53;
 
 const int sensorIR1 = 22;
 const int sensorIR2 = 23;
@@ -113,6 +113,8 @@ void loop() {
       modoActual = NORMAL;
       modoYaSeleccionado = true;
       cuenta = -1;
+      digitalWrite(pinNocturno1, LOW);
+      digitalWrite(pinNocturno2, LOW);
 
     } else if (comando == "ModoPanicoActivado" && modoActual == NORMAL) {
       modoActual = PANICO;
