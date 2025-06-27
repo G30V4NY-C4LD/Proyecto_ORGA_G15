@@ -116,5 +116,5 @@ miGrafica = new Chart(ctx, {
 
 
   // Ejecutar al cargar y luego cada 2 segundos
-  setInterval(actualizarDatos, 2000);
+  setInterval(actualizarDatos, 500);
   actualizarDatos();
