@@ -90,8 +90,8 @@ def modo_con_contrasena():
     arduino.write(mensaje.encode())
 
     # Leer respuesta del Arduino si hay
-    time.sleep(1)
+    time.sleep(0.5)
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
