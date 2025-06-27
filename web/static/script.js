@@ -26,14 +26,7 @@ function actualizarDatos() {
           icon.className = estado === 'libre' ? 'fas fa-square-parking'
                       : estado === 'ocupado' ? 'fas fa-car-side'
                       : 'fas fa-question';
-          /*
-          if (estado === 'libre') {
-            icon.className = 'fas fa-square-parking';
-          } else if (estado === 'ocupado') {
-            icon.className = 'fas fa-car-side';
-          } else {
-            icon.className = 'fas fa-question';
-          }*/
+
 
           div.appendChild(icon);
           grid.appendChild(div);
@@ -86,7 +79,7 @@ function actualizarDatos() {
   })
   .then(res => res.json())
   .then(data => {
-    alert("Arduino responde: " + data.respuesta);
+    //alert("Arduino responde: " + data.respuesta);
     document.getElementById("inputCodigo").value = ""; // Limpia el campo
   })
   .catch(error => {
@@ -122,6 +115,6 @@ miGrafica = new Chart(ctx, {
 
 
 
-  // Ejecutar al cargar y luego cada 4 segundos
-  setInterval(actualizarDatos, 4000);
+  // Ejecutar al cargar y luego cada 2 segundos
+  setInterval(actualizarDatos, 2000);
   actualizarDatos();

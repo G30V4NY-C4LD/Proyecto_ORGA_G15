@@ -15,7 +15,7 @@ ultimo_mensaje = "" # aguarda el ultimo mensaje para ver si hay cambio despues
 
 # Intento de conexión al Arduino
 try:
-    arduino = serial.Serial('COM4', 9600, timeout=1)
+    arduino = serial.Serial('COM9', 9600, timeout=1)
     time.sleep(2)
     arduino_disponible = True
 except:
