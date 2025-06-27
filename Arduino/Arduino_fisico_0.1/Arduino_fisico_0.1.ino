@@ -13,6 +13,9 @@ int pinCuatro = 11;
 int ascPins[3] = {7, 6, 5};
 int descPins[3] = {4, 3, 2};
 
+int pinNocturno1 = 52;
+int pinNocturno1 = 53;
+
 const int sensorIR1 = 22;
 const int sensorIR2 = 23;
 int panicPin = 18;
@@ -75,6 +78,9 @@ void setup() {
   servo2.attach(servoPin2, 500, 2500);
   servo1.write(180);
   servo2.write(180);
+
+  pinMode(pinNocturno1, OUTPUT);
+  pinMode(pinNocturno2, OUTPUT),
 
   Serial.begin(9600);
 }
@@ -179,6 +185,8 @@ void loop() {
     servo1.write(180);
     servo2.write(180);
     noTone(buzzPin);
+    digitalWrite(pinNocturno1, HIGH);
+    digitalWrite(pinNocturno2, HIGH);
     return;
   }
 
