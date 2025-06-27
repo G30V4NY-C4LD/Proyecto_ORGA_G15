@@ -77,6 +77,7 @@ def estado_espacios():  # los datos del formato json para mostrar el estado de l
 @app.route("/modo_con_contrasena", methods=["POST"])
 def modo_con_contrasena():
     data = request.get_json()
+    print("Datos recibidos: ",data)
     modo = data.get("modo", "").lower()
     codigo = data.get("codigo", "")
 

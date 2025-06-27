@@ -79,9 +79,11 @@ function actualizarDatos() {
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({ modo: modo, codigo: codigo })
   })
-  .then(res => res.json(),
-    document.getElementById("inputCodigo").value = "" // Limpia el campo
-)
+  .then(res => res.json())
+.then(data => {
+  document.getElementById("inputCodigo").value = "";
+  console.log(data);
+})
   .catch(error => {
     console.error("Error:", error)
   });
