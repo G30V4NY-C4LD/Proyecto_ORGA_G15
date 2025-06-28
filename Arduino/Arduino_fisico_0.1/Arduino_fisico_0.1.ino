@@ -113,6 +113,8 @@ void loop() {
       modoActual = NORMAL;
       modoYaSeleccionado = true;
       cuenta = -1;
+      servo1.write(180);
+      servo2.write(180);
       digitalWrite(pinNocturno1, LOW);
       digitalWrite(pinNocturno2, LOW);
 
